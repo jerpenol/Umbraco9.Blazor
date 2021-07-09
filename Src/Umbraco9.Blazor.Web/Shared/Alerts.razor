@@ -1,0 +1,49 @@
+﻿@using Umbraco9.Blazor.Web.App_Code
+
+@foreach (var alert in ActiveAlerts)
+{
+    <div class="alert alert-@alert.Type alert-dismissible fade show" role="alert">
+        @if (!string.IsNullOrWhiteSpace(alert.Title))
+        {
+            <h4 class="alert-heading">@alert.Title</h4>
+        }
+
+        @alert.Text
+
+        <button @onclick="@(() => CloseAlert(alert))" type="button" class="btn-close" aria-label="Close"></button>
+    </div>
+}
+
+<button @onclick="@FetchAlert" type="button" class="btn btn-primary mt-3" aria-label="Add new Alert">Add new Alert</button>
+
+@code {
+    public List<AlertModel> ActiveAlerts { get; set; }
+
+    protected override void OnInitialized()
+    {
+        ActiveAlerts = new List<AlertModel>
+    {
+            new AlertModel
+            {
+                Title = "Umbraco ❤ Blazor",
+                Text = "Initial alert",
+                Type = "info"
+            }
+        };
+    }
+
+    private void CloseAlert(AlertModel alert)
+    {
+        ActiveAlerts.Remove(alert);
+    }
+
+    private void FetchAlert()
+    {
+        ActiveAlerts.Add(new AlertModel
+        {
+            Title = "Umbraco ❤ Blazor",
+            Text = "A new alert!",
+            Type = "success"
+        });
+    }
+}
