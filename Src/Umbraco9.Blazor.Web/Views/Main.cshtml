@@ -1,8 +1,24 @@
-﻿@using Umbraco.Cms.Web.Common.PublishedModels;
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 @{
-	Layout = null;
+    Layout = null;
 }
 
-@RenderBody()
+<!doctype html>
+<html>
+    <head>
+        <base href="~/" />
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" 
+              rel="stylesheet" 
+              integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" 
+              crossorigin="anonymous" />
+    </head>
+    <body>
+        <div class="container">
+            @RenderBody()
+        </div>
+
+        <script src="~/_framework/blazor.server.js"></script>
+    </body>
+</html>
 

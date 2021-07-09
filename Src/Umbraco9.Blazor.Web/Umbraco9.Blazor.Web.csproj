@@ -38,6 +38,9 @@
         <Content Remove="umbraco\logs\**" />
         <Content Remove="umbraco\MediaCache\**" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Shared\" />
+    </ItemGroup>
 
     <!--Set this to true ModelsBuilder mode is not PureLive -->
     <PropertyGroup>
