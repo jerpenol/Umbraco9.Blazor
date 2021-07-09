@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Extensions;
 using Microsoft.Extensions.Hosting;
+using Umbraco9.Blazor.Web.App_Code;
 
 namespace Umbraco9.Blazor.Web
 {
@@ -47,6 +48,8 @@ namespace Umbraco9.Blazor.Web
 
             //This adds all necessary Server Side Blazor services to the service collection
             services.AddServerSideBlazor();
+
+            services.AddTransient<AlertStateProvider>();
         }
 
         /// <summary>

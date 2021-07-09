@@ -6,20 +6,36 @@ namespace Umbraco9.Blazor.Web.Shared
 {
     public partial class Alerts
     {
+        [Inject] public AlertStateProvider AlertState { get; set; }
+
         [Parameter] public int? MaximumNumberOfAlerts { get; set; }
+
         public List<AlertModel> ActiveAlerts { get; set; }
 
         protected override void OnInitialized()
         {
-            ActiveAlerts = new List<AlertModel>
+            ActiveAlerts = new List<AlertModel>();
+
+            AlertState.OnChange += OnStateChanged;
+
+            DequeueAlerts();
+        }
+
+        private void DequeueAlerts()
+        {
+            var pageSize = MaximumNumberOfAlerts ?? 5;
+            for (int i = 0; i < pageSize; i++)
             {
-                new AlertModel
+                if (AlertState.TryDequeue(out var alert))
                 {
-                    Title = "Umbraco ❤ Blazor",
-                    Text = "Initial alert",
-                    Type = "info"
+                    if (ActiveAlerts.Count == MaximumNumberOfAlerts)
+                    {
+                        ActiveAlerts.RemoveAt(0);
+                    }
+
+                    ActiveAlerts.Add(alert);
                 }
-            };
+            }
         }
 
         private void CloseAlert(AlertModel alert)
@@ -27,19 +43,23 @@ namespace Umbraco9.Blazor.Web.Shared
             ActiveAlerts.Remove(alert);
         }
 
+        protected void OnStateChanged()
+        {
+            DequeueAlerts();
+
+            StateHasChanged();
+        }
+
         private void FetchAlert()
         {
-            if(MaximumNumberOfAlerts.HasValue && ActiveAlerts.Count >= MaximumNumberOfAlerts.Value)
-            {
-                ActiveAlerts.RemoveAt(0);
-            }
-
-            ActiveAlerts.Add(new AlertModel
+            AlertState.Enqueue(new AlertModel
             {
                 Title = "Umbraco ❤ Blazor",
                 Text = "A new alert!",
                 Type = "success"
             });
+
+            DequeueAlerts();
         }
     }
 }
