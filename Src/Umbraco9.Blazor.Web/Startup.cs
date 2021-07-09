@@ -27,9 +27,7 @@ namespace Umbraco9.Blazor.Web
             _env = webHostEnvironment ?? throw new ArgumentNullException(nameof(webHostEnvironment));
             _config = config ?? throw new ArgumentNullException(nameof(config));
         }
-
-
-
+        
         /// <summary>
         /// Configures the services
         /// </summary>
@@ -47,6 +45,8 @@ namespace Umbraco9.Blazor.Web
                 .Build();
 #pragma warning restore IDE0022 // Use expression body for methods
 
+            //This adds all necessary Server Side Blazor services to the service collection
+            services.AddServerSideBlazor();
         }
 
         /// <summary>
@@ -71,6 +71,12 @@ namespace Umbraco9.Blazor.Web
                     u.UseBackOfficeEndpoints();
                     u.UseWebsiteEndpoints();
                 });
+
+            //Register an endpoint for Blazor to communicate with the server
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapBlazorHub();
+            });
         }
     }
 }
