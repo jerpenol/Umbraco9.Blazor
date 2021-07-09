@@ -1,0 +1,14 @@
+#Generic
+/packages
+App_Data
+bin
+obj
+.vs
+*.user
+package-lock.json
+
+#.Web
+/Src/Umbraco9.Blazor.Web/bin/*
+/Src/Umbraco9.Blazor.Web/obj/*
+/Src/Umbraco9.Blazor.Web/umbraco/*
+!/Src/Umbraco9.Blazor.Web/umbraco/Data/Umbraco.sdf
